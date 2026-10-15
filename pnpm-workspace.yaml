@@ -1,0 +1,8 @@
+allowBuilds:
+  '@google/genai': false
+  better-sqlite3: true
+  koffi: false
+  openclaw: false
+  protobufjs: false
+  tree-sitter-bash: false
+  unrs-resolver: false

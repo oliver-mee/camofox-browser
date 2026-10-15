@@ -72,7 +72,7 @@ RUN case "${TARGETARCH}" in \
 
 WORKDIR /app
 
-COPY package.json package-lock.json postinstall.js ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml postinstall.js ./
 COPY lib/camoufox-download.js ./lib/
 COPY scripts/ ./scripts/
 # better-sqlite3 has no prebuild matching this node/arch, so npm ci falls back to
@@ -82,7 +82,9 @@ COPY scripts/ ./scripts/
 # one fails at build time on any Debian release, that one at runtime on bookworm.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends build-essential python3 \
-    && npm ci --omit=dev \
+    && corepack enable \
+    && corepack prepare pnpm@11.9.0 --activate \
+    && pnpm install --prod --frozen-lockfile \
     && apt-get purge -y --auto-remove build-essential \
     && rm -rf /var/lib/apt/lists/*
 
