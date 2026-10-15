@@ -11,6 +11,17 @@ afterEach(() => {
 });
 
 describe('loadConfig', () => {
+  test('parses addon directories and forwards the original environment', () => {
+    const value = ` /addons/one ${path.delimiter}${path.delimiter} /addons/two `;
+    process.env.CAMOFOX_ADDONS = value;
+    expect(loadConfig().addons).toEqual(['/addons/one', '/addons/two']);
+    expect(loadConfig().serverEnv.CAMOFOX_ADDONS).toBe(value);
+    delete process.env.CAMOFOX_ADDONS;
+    expect(loadConfig().addons).toEqual([]);
+    process.env.CAMOFOX_ADDONS = ` ${path.delimiter} `;
+    expect(loadConfig().addons).toEqual([]);
+  });
+
   test('reads the optional API bind host and forwards it to server subprocesses', () => {
     process.env.CAMOFOX_BIND_HOST = '127.0.0.1';
 

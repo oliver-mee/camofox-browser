@@ -782,3 +782,7 @@ Sketchy people are doing sketchy things with crypto tokens named "Camofox" now t
 ## License
 
 MIT
+
+### Local Firefox addons
+
+Set `CAMOFOX_ADDONS` to unpacked Firefox extension directories, separated by the platform path delimiter (`:` on Linux, `;` on Windows). Empty entries are ignored. Docker deployments must bind-mount those directories read-only at the configured container paths. Extension files and host Compose configuration are not distributed by this fork. Install only trusted extensions: they can read visited pages.
